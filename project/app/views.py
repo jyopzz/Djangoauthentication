@@ -1,8 +1,11 @@
-from django.shortcuts import render
+
+from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate,login
 from .form import LoginForm
 from django.http import HttpResponse
+from .models import Getnamemod,details
 # Create your views here.
+
 
 
 def loginn(request):
@@ -24,3 +27,55 @@ def loginn(request):
         form=LoginForm()
 
     return render(request,'login.html',{'form':form})
+
+def main(request):
+   
+    data={"details1":details.objects.all()}
+
+    return render(request,'main.html',data)
+
+
+def insertdata(request):
+    if request.method=="POST":
+        name=request.POST.get('name1')
+        image=request.FILES['img']
+        print(name,image)
+        detailsobj=details()
+        detailsobj.name=name
+        detailsobj.image=image
+        detailsobj.save()
+    return redirect(main)
+
+def edit(request,id):
+    if request.method=="POST":
+        name=request.POST.get('name1')
+        image=request.FILES['img']
+        
+        detailsobj=details.objects.get(id=id)
+        detailsobj.name=name
+        detailsobj.image=image
+        detailsobj.save()
+        return redirect(main)
+
+
+
+    data={"details1":details.objects.filter(id=id)}
+    print(data)
+    
+    return render(request,'edit.html',data)
+
+
+def editup(request,id):
+    if request.method=='POST':
+       data=details.objects.get(id=id)
+       data.save()
+       data=details.objects.all()
+       return redirect(main)
+    
+    
+
+
+def delete(request,id):
+    data=details.objects.get(id=id)
+    data.delete()
+    return redirect(main)
