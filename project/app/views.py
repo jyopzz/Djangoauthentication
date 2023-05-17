@@ -65,13 +65,7 @@ def edit(request,id):
     return render(request,'edit.html',data)
 
 
-def editup(request,id):
-    if request.method=='POST':
-       data=details.objects.get(id=id)
-       data.save()
-       data=details.objects.all()
-       return redirect(main)
-    
+
     
 
 

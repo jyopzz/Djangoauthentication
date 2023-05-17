@@ -12,6 +12,6 @@ urlpatterns = [
      #path('main/getname',views.getname,name="getname"),
     path('main/insert/',views.insertdata,name="insertdata"),
     path('edit/<id>/',views.edit,name="edit"),
-    path('editup/<id>/',views.editup,name="editup"),
+    
     path('delete/<id>/',views.delete,name="delete"),
 ]
